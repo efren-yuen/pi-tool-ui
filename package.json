@@ -1,13 +1,13 @@
 {
-  "name": "pi-tool-ui",
-  "version": "0.1.0",
+  "name": "@efrencode/pi-tool-ui",
+  "version": "0.1.1",
   "description": "Pi 工具调用的紧凑显示、相邻分组与通用 renderer",
   "type": "module",
   "license": "MIT",
   "keywords": ["pi-package"],
   "engines": { "node": ">=22.19.0" },
-  "pi": { "extensions": ["./src/index.ts"] },
-  "files": ["src/**", "schema/**", "examples/**", "README.md", "LICENSE", "package.json", "package-lock.json"],
+  "pi": { "extensions": ["./index.ts"] },
+  "files": ["index.ts", "src/**", "schema/**", "examples/**", "README.md", "LICENSE", "package.json", "package-lock.json"],
   "scripts": {
     "test": "vitest run",
     "typecheck": "tsc --noEmit",

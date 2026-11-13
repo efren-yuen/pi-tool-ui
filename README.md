@@ -1,4 +1,4 @@
-# pi-tool-ui
+# @efrencode/pi-tool-ui
 
 让 [Pi](https://pi.dev) 的工具调用更紧凑：单行标题、状态与耗时，可展开的 subagent / codemode 工具树。
 
@@ -20,7 +20,7 @@
 ## 安装
 
 ```sh
-pi install npm:pi-tool-ui
+pi install npm:@efrencode/pi-tool-ui
 ```
 
 ## 许可证
