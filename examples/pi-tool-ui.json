@@ -1,0 +1,22 @@
+{
+  "$schema": "../schema/pi-tool-ui.schema.json",
+  "enabled": true,
+  "include": ["*"],
+  "exclude": [],
+  "groups": [],
+  "collapsedPreviewLines": 0,
+  "statusStyle": "icon",
+  "showDuration": true,
+  "codemodeSummary": true,
+  "codemodeShowArguments": true,
+  "subagentSummary": true,
+  "nestedExpansion": "inline",
+  "codemodeLayout": "tree",
+  "subagentLayout": { "single": "tree", "parallel": "tree", "chain": "tree" },
+  "summaryMaxRows": 0,
+  "appendRawOnExpand": false,
+  "theme": {
+    "semantic": { "call": "toolTitle", "args": "muted", "result": "toolOutput", "success": "success", "error": "error", "cancelled": "warning", "group": "accent", "meta": "dim" },
+    "colors": {}
+  }
+}

@@ -1,0 +1,89 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "pi-tool-ui 配置",
+  "description": "全局与可信项目配置；非法文件整体回退，不回写。数组整体替换，主题按角色合并。",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "$schema": { "type": "string" },
+    "enabled": { "type": "boolean", "default": true },
+    "include": { "$ref": "#/definitions/patterns", "default": ["*"] },
+    "exclude": { "$ref": "#/definitions/patterns", "default": [] },
+    "collapsedPreviewLines": { "type": "integer", "minimum": 0, "maximum": 100, "default": 0, "description": "正常折叠结果默认零行，不重复状态或展开提示；错误诊断与图片安全元信息仍可见。" },
+    "statusStyle": { "enum": ["icon", "text", "none"], "default": "icon", "description": "调用标题的状态样式：图标、短英文或隐藏；结果不重复状态，错误诊断不隐藏。" },
+    "showDuration": { "type": "boolean", "default": true, "description": "仅控制调用标题的耗时，不修改结果正文。" },
+    "codemodeSummary": { "type": "boolean", "default": true, "description": "仅控制 codemode call 区的实际子工具逐项名称和状态摘要，不影响 result 内容。" },
+    "codemodeShowArguments": { "type": "boolean", "default": true, "description": "仅控制 codemode 子调用节点是否显示已捕获的有界短参数摘要；关闭时仍可能在内存中保留摘要。" },
+    "subagentSummary": { "type": "boolean", "default": true, "description": "仅在 subagent call 区显示 agent metadata 摘要，不读取任务或输出正文，不把 partial 当作成功。" },
+    "nestedExpansion": { "enum": ["inline", "native"], "default": "inline", "description": "inline 为 subagent/codemode 原位逐节点树（非 tree 布局只读）；native 恢复旧整体 native 展开模式。" },
+    "codemodeLayout": { "enum": ["tree", "summary"], "default": "tree" },
+    "subagentLayout": {
+      "type": "object",
+      "additionalProperties": false,
+      "default": { "single": "tree", "parallel": "tree", "chain": "tree" },
+      "properties": {
+        "single": { "enum": ["tree", "inline", "summary"], "default": "tree" },
+        "parallel": { "enum": ["tree", "summary"], "default": "tree" },
+        "chain": { "enum": ["flow", "tree"], "default": "tree" }
+      }
+    },
+    "summaryMaxRows": { "type": "integer", "minimum": 0, "maximum": 9007199254740991, "default": 0, "description": "仅限制折叠树状节点行数，0 显示全部已校验节点，展开解除限制，不改变 metadata。" },
+    "appendRawOnExpand": { "type": "boolean", "default": false, "description": "仅在已有作者/原生 slot 展开后追加完整参数或完整原始结果；通用展开始终完整。" },
+    "groups": {
+      "type": "array",
+      "default": [],
+      "description": "id 还须跨组唯一；匹配第一个组，禁用组也会阻止继续匹配后面的组。",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "label", "enabled", "tools"],
+        "properties": {
+          "id": { "$ref": "#/definitions/label" },
+          "label": { "$ref": "#/definitions/label" },
+          "enabled": { "type": "boolean" },
+          "tools": { "$ref": "#/definitions/patterns" }
+        }
+      }
+    },
+    "theme": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "semantic": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "call": { "$ref": "#/definitions/semantic" },
+            "args": { "$ref": "#/definitions/semantic" },
+            "result": { "$ref": "#/definitions/semantic" },
+            "success": { "$ref": "#/definitions/semantic" },
+            "error": { "$ref": "#/definitions/semantic" },
+            "cancelled": { "$ref": "#/definitions/semantic" },
+            "group": { "$ref": "#/definitions/semantic" },
+            "meta": { "$ref": "#/definitions/semantic" }
+          }
+        },
+        "colors": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "call": { "$ref": "#/definitions/color" },
+            "args": { "$ref": "#/definitions/color" },
+            "result": { "$ref": "#/definitions/color" },
+            "success": { "$ref": "#/definitions/color" },
+            "error": { "$ref": "#/definitions/color" },
+            "cancelled": { "$ref": "#/definitions/color" },
+            "group": { "$ref": "#/definitions/color" },
+            "meta": { "$ref": "#/definitions/color" }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "patterns": { "type": "array", "items": { "type": "string" }, "description": "大小写敏感的工具名或 glob，只支持 * 和 ?。" },
+    "label": { "type": "string", "minLength": 1, "pattern": "^(?=.*\\S)[^\\u0000-\\u001f\\u007f-\\u009f]+$" },
+    "color": { "type": "string", "pattern": "^#(?:[0-9a-fA-F]{3}|[0-9a-fA-F]{6})$", "description": "仅允许安全的十六进制 RGB，不接受 ANSI。" },
+    "semantic": { "enum": ["toolTitle", "muted", "toolOutput", "success", "error", "warning", "accent", "dim", "text", "border", "borderAccent", "borderMuted", "thinkingText", "toolDiffAdded", "toolDiffRemoved", "toolDiffContext"] }
+  }
+}
