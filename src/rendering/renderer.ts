@@ -98,7 +98,7 @@ function createNativeToolRendererResolver(state: ToolUiState): ToolRendererResol
     const genericCall = createGenericCallRenderer(toolName, state);
     const genericResult = createGenericResultRenderer(state, toolName);
     const bind = (ctx: ToolRenderContext) => state.bind({ toolCallId: ctx.toolCallId, toolName, args: ctx.args }, ctx.invalidate);
-    const decorate = (lines: string[], width: number, theme: Theme, group: GroupPosition | undefined, call: boolean) => createGroupDecoration(lines, width, group, theme, state.config, call);
+    const decorate = (lines: readonly string[], width: number, theme: Theme, group: GroupPosition | undefined, call: boolean) => createGroupDecoration(lines, width, group, theme, state.config, call);
     const wrapped: ToolRenderers = {
       ...native,
       renderShell: "self",

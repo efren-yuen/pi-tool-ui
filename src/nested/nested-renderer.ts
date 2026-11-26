@@ -78,7 +78,7 @@ class NestedResultComponent extends DynamicComponent {
   private width = 0;
   private height = 0;
   constructor(draw: (width: number) => string[], private readonly view: NestedToolView) { super(draw); }
-  override render(width: number): string[] {
+  override render(width: number): readonly string[] {
     this.width = width;
     const lines = this.view.valid && width > 0 ? super.render(width) : [];
     this.height = lines.length;
